@@ -2,6 +2,12 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load environment variables from .env
+api_key = os.getenv("OPENAI_API_KEY")
+
 
 # Define a tool
 async def get_weather(city: str) -> str:
