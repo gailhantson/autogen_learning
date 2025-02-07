@@ -6,38 +6,37 @@ from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()  # Load environment variables from .env
 api_key = os.getenv("OPENAI_API_KEY")
 
 
-# Define a tool
-async def get_weather(city: str) -> str:
-    return f"The weather in {city} is 73 degrees and Sunny."
+if not api_key:
+    raise ValueError("API key not found! Make sure it's set in the .env file.")
 
 
-async def main() -> None:
-    # Define an agent
-    weather_agent = AssistantAgent(
-        name="weather_agent",
+async def main():
+    # Create your personal agent
+    my_agent = AssistantAgent(
+        name="amelia_v01",
+        system_message="You are an AutoGen agent that I am building. You are Amelia v.01. You are straightforward, and give succinct responses always.",
         model_client=OpenAIChatCompletionClient(
-            model="gpt-4o-2024-08-06",
+            model="gpt-4o",
             api_key=api_key,
-        ),
-        tools=[get_weather],
+        )
     )
 
-    # Define a team with a single agent and maximum auto-gen turns of 1.
-    agent_team = RoundRobinGroupChat([weather_agent], max_turns=1)
-
     while True:
-        # Get user input from the console.
-        user_input = input("Enter a message (type 'exit' to leave): ")
+        # Get user input
+        user_input = input("You: ")
         if user_input.strip().lower() == "exit":
             break
-        # Run the team and stream messages to the console.
-        stream = agent_team.run_stream(task=user_input)
+
+        # Run the agent and stream responses
+        stream = my_agent.run_stream(task=user_input)
         await Console(stream)
 
 
-# NOTE: if running this inside a Python script you'll need to use asyncio.run(main()).
-asyncio.run(main())
+# Run the async function properly
+if __name__ == "__main__":
+    asyncio.run(main())
