@@ -21,7 +21,7 @@ async def main():
         name="amelia_v01",
         system_message="You are an AutoGen agent that I am building. You are Amelia v.01. You are straightforward, and give succinct responses always.",
         model_client=OpenAIChatCompletionClient(
-            model="gpt-4o",
+            model="gpt-4o-mini-2024-07-18",
             api_key=api_key,
         )
     )
