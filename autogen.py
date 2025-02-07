@@ -3,7 +3,6 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 
-
 # Define a tool
 async def get_weather(city: str) -> str:
     return f"The weather in {city} is 73 degrees and Sunny."
