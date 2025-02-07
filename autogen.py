@@ -6,6 +6,7 @@ from autogen_ext.models.openai import OpenAIChatCompletionClient
 from dotenv import load_dotenv
 import os
 
+from datetime import datetime
 
 load_dotenv()  # Load environment variables from .env
 api_key = os.getenv("OPENAI_API_KEY")
@@ -14,6 +15,8 @@ api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("API key not found! Make sure it's set in the .env file.")
 
+async def get_time():
+    return f"The current time is {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}."
 
 async def main():
     # Create your personal agent
@@ -23,7 +26,8 @@ async def main():
         model_client=OpenAIChatCompletionClient(
             model="gpt-4o-mini-2024-07-18",
             api_key=api_key,
-        )
+        ),
+        tools=[get_time]  # Add the function as a tool
     )
 
     while True:
